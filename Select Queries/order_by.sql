@@ -51,3 +51,13 @@ LIMIT 5;
 SELECT FirstName, LastName, HireDate
 FROM employees
 ORDER BY HireDate DESC;
+
+/*
+1. The ORDER BY clause is placed at the end of the query.
+
+2. By default, ORDER BY sorts in ascending order (ASC). To sort in descending order, use the DESC keyword.
+
+3. You can sort by multiple columns by separating them with commas, and each column can have its own sort direction.
+
+4. Combining ORDER BY with other clauses like WHERE and GROUP BY is common to refine and order the data more precisely.
+*/
