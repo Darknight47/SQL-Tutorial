@@ -63,3 +63,28 @@ WHERE Milliseconds = (
     FROM tracks t2
     WHERE t1.AlbumId = t2.AlbumId
 )
+
+
+-- Scenario 1: Find the artists who have more tracks than the average number of tracks per artist.
+SELECT ArtistId, Name
+FROM artists
+WHERE ArtistId IN 
+    (
+        SELECT ArtistId
+        FROM albums
+        WHERE AlbumId IN 
+        (
+            SELECT AlbumId
+            FROM tracks
+            GROUP BY AlbumId
+            HAVING COUNT(*) > 
+                                (
+                                    SELECT AVG(track_count)
+                                    FROM(
+                                            SELECT COUNT(*) AS track_count
+                                            FROM tracks
+                                            GROUP BY AlbumId
+                                        ) AS avg_track_count 
+                                )
+        )
+    );
