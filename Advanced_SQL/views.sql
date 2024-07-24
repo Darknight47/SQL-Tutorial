@@ -58,3 +58,33 @@ JOIN tracks ON playlist_track.TrackId = tracks.TrackId
 -- Usage of the PlaylistDetails VIEW
 SELECT *
 FROM PlaylistDetails
+
+-------------------------------------------- SCENARIOS --------------------------------------------
+-- Scenario 1: Restricting Access to Sensitive Data
+-- A company wants to provide their analysts with access to customer data for analysis but without 
+-- exposing sensitive information like addresses and phone numbers. A view can be created to restrict 
+-- access to only the necessary columns.
+CREATE VIEW CustomerAnalysisView AS
+SELECT CustomerId, FirstName, LastName, Country
+FROM customers;
+
+-- Scenario 2: Abstracting Database Schema Changes
+-- The database schema evolves over time, and a new column GenreDescription is added to the genres table. 
+-- Instead of updating all existing queries, a view can be used to abstract this change.
+CREATE VIEW TracksWithGenreDescription AS
+SELECT tracks.TrackId, tracks.Name AS TrackName, genres.Name AS GenreName, genres.GenreDescription
+FROM tracks
+JOIN genres ON tracks.GenreId = genres.GenreId;
+
+
+-- Scenario 3: Simplifying Report Generation
+-- A music streaming service wants to generate monthly reports of all tracks sold, including track names, genres, and total sales. 
+-- Creating a view that encapsulates this information makes the report generation simpler and more efficient.
+CREATE VIEW MonthlyTrackSales AS
+SELECT tracks.Name AS TrackName, genres.Name AS Genre, SUM(invoice_items.Quantity * invoice_items.UnitPrice) AS TotalSales
+FROM tracks
+JOIN genres ON tracks.GenreId = genres.GenreId
+JOIN invoice_items ON tracks.TrackId = invoice_items.TrackId
+JOIN invoices ON invoice_items.InvoiceId = invoices.InvoiceId
+WHERE invoices.InvoiceDate BETWEEN '2010-07-01' AND '2010-07-31'
+GROUP BY tracks.Name, genres.Name;
