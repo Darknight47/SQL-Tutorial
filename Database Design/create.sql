@@ -27,8 +27,8 @@ CREATE TABLE players(
 
 CREATE TABLE staffs(
     StafId INTEGER PRIMARY KEY,
-    Name, VARCHAR(100),
-    Role, VARCHAR(80),
+    Name VARCHAR(100),
+    Role VARCHAR(80),
     ContractDetails TEXT
 );
 
